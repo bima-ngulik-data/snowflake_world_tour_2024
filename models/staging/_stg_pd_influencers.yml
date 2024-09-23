@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_brand
+  - name: stg_pd__brand
     description: |
       The staging model for the `brand` table. It renames and formats the fields from the source `brand` table for easier use in downstream models, including OBT. This table provides details about the brands involved in influencer campaigns.
     columns:
@@ -32,7 +32,7 @@ models:
         tests:
           - not_null
 
-  - name: stg_campaign
+  - name: stg_pd__campaign
     description: |
       The staging model for the `campaign` table. It renames and reformats the fields for use in downstream models like OBT. The table includes details about influencer marketing campaigns run by brands.
     columns:
@@ -91,7 +91,7 @@ models:
         tests:
           - not_null
 
-  - name: stg_influencer
+  - name: stg_pd__influencer
     description: |
       The staging model for the `influencer` table. It renames and reformats influencer details for downstream use. This table includes information about influencers participating in campaigns.
     columns:
@@ -141,7 +141,7 @@ models:
         tests:
           - not_null
 
-  - name: stg_submission
+  - name: stg_pd__submission
     description: |
       The staging model for the `submission` table. It prepares the submission data for downstream use by renaming and restructuring the columns. This table records the submission of influencer content as part of campaigns.
     columns:
