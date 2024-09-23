@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: mart_influencer_profile
+    description: |
+      The `mart_influencer_profile` table provides a comprehensive summary of influencer performance and profiles. It combines influencer demographic data with aggregated performance metrics (such as total likes, views, shares, and submissions) across campaigns. This table is ideal for analyzing influencer performance and filtering influencers based on both profile attributes (age, gender, country) and their campaign activities (likes, views, etc.).
+    columns:
+      - name: influencer_id
+        description: Unique identifier for the influencer.
+        tests:
+          - not_null
+          - unique
+      - name: influencer_name
+        description: Full name of the influencer.
+        tests:
+          - not_null
+      - name: influencer_age
+        description: Age of the influencer.
+        tests:
+          - not_null
+      - name: influencer_gender
+        description: Gender of the influencer (e.g., Male, Female, Other).
+        tests:
+          - not_null
+      - name: influencer_country
+        description: The country where the influencer resides (e.g., 'SG' for Singapore, 'ID' for Indonesia).
+        tests:
+          - not_null
+      - name: influencer_tiktok_followers
+        description: Number of followers the influencer has on TikTok.
+      - name: influencer_instagram_followers
+        description: Number of followers the influencer has on Instagram.
+
+      # Performance Metrics
+      - name: total_submissions
+        description: Total number of submissions the influencer has made across campaigns.
+        tests:
+          - not_null
+      - name: total_likes
+        description: Total number of likes the influencer's submissions have received across campaigns.
+        tests:
+          - not_null
+      - name: total_comments
+        description: Total number of comments the influencer's submissions have received across campaigns.
+      - name: total_shares
+        description: Total number of shares the influencer's submissions have received across campaigns.
+      - name: total_views
+        description: Total number of views the influencer's submissions have received across campaigns.
+      - name: average_likes_per_submission
+        description: Average number of likes per submission made by the influencer.
+      - name: average_comments_per_submission
+        description: Average number of comments per submission made by the influencer.
+      - name: average_shares_per_submission
+        description: Average number of shares per submission made by the influencer.
+      - name: average_views_per_submission
+        description: Average number of views per submission made by the influencer.
