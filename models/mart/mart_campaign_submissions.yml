@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: mart_campaign_submissions
+    materialized: table
     description: |
       The `mart_campaign_submissions` table consolidates data from various sources to provide a comprehensive view of influencer submissions, campaign details, brand information, and influencer profiles. This table is designed to support analysis of influencer performance within campaigns and overall campaign effectiveness. It includes detailed submission metrics (likes, comments, shares, views), campaign-level attributes, and brand and influencer information.
     columns:

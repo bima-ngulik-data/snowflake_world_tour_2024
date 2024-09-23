@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: mart_influencer_profile
+    materialized: table
     description: |
       The `mart_influencer_profile` table provides a comprehensive summary of influencer performance and profiles. It combines influencer demographic data with aggregated performance metrics (such as total likes, views, shares, and submissions) across campaigns. This table is ideal for analyzing influencer performance and filtering influencers based on both profile attributes (age, gender, country) and their campaign activities (likes, views, etc.).
     columns:
