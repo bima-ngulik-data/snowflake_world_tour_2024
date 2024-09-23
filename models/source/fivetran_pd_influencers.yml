@@ -1,0 +1,219 @@
+version: 2
+
+sources:
+  - name: fivetran_pd_influencers
+    database: FIVETRAN_DATABASE
+    schema: RAW_PG_INFLUENCERS
+    loader: Fivetran
+    description: |
+      - This source contains data related to influencer marketing campaigns including information on brands, campaigns, influencers, and campaign submissions.
+    tables:
+
+# ----- Table: brand -----
+      - name: brand
+        description: |
+          - Contains information about brands involved in influencer marketing.
+        meta:
+          owner: ngulikdata
+          fivetran:
+            name: pd
+            ingestion_type: Fivetran Teleport Sync
+        loaded_at_field: _FIVETRAN_SYNCED
+        columns:
+          - name: id
+            description: Unique identifier for the brand.
+            tests:
+              - not_null
+              - unique
+          - name: name
+            description: Name of the brand.
+            tests:
+              - not_null
+          - name: country
+            description: Country code where the brand is located (e.g., 'SG' for Singapore, 'ID' for Indonesia).
+            tests:
+              - not_null
+          - name: created_at
+            description: Date when the brand was created.
+            tests:
+              - not_null
+          - name: updated_at
+            description: Date when the brand information was last updated.
+            tests:
+              - not_null
+          - name: industry
+            description: Industry the brand belongs to (e.g., fashion, electronics).
+            tests:
+              - not_null
+
+# ----- Table: campaign -----
+      - name: campaign
+        description: |
+          - Contains details of campaigns created by brands for influencer marketing.
+        meta:
+          owner: ngulikdata
+          fivetran:
+            name: pd
+            ingestion_type: Fivetran Teleport Sync
+        loaded_at_field: _FIVETRAN_SYNCED
+        columns:
+          - name: id
+            description: Unique identifier for the campaign.
+            tests:
+              - not_null
+              - unique
+          - name: title
+            description: Title of the campaign.
+            tests:
+              - not_null
+          - name: description
+            description: Detailed description of the campaign.
+          - name: created_at
+            description: Date when the campaign was created.
+            tests:
+              - not_null
+          - name: updated_at
+            description: Date when the campaign details were last updated.
+            tests:
+              - not_null
+          - name: brand_id
+            description: Foreign key linking the campaign to a brand.
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('brand')
+                  field: id
+          - name: start_date
+            description: Date when the campaign starts.
+            tests:
+              - not_null
+          - name: end_date
+            description: Date when the campaign ends.
+            tests:
+              - not_null
+          - name: budget
+            description: Budget allocated for the campaign.
+            tests:
+              - not_null
+          - name: target_influencer
+            description: Target number of influencers for the campaign.
+            tests:
+              - not_null
+          - name: status
+            description: Status of the campaign (e.g., DRAFT, IN_PROGRESS, FINISHED).
+            tests:
+              - not_null
+          - name: fee
+            description: Fee structure for the campaign, including influencer payouts.
+            tests:
+              - not_null
+          - name: platform
+            description: Platform where the campaign is executed (e.g., Instagram, TikTok).
+            tests:
+              - not_null
+
+# ----- Table: influencer -----
+      - name: influencer
+        description: |
+          - Contains details about influencers participating in marketing campaigns.
+        meta:
+          owner: ngulikdata
+          fivetran:
+            name: pd
+            ingestion_type: Fivetran Teleport Sync
+        loaded_at_field: _FIVETRAN_SYNCED
+        columns:
+          - name: id
+            description: Unique identifier for the influencer.
+            tests:
+              - not_null
+              - unique
+          - name: name
+            description: Full name of the influencer.
+            tests:
+              - not_null
+          - name: tiktok_account
+            description: TikTok account handle of the influencer.
+          - name: instagram_account
+            description: Instagram account handle of the influencer.
+          - name: age
+            description: Age of the influencer.
+            tests:
+              - not_null
+          - name: gender
+            description: Gender of the influencer (e.g., Male, Female, Other).
+            tests:
+              - not_null
+          - name: tiktok_followers
+            description: Number of TikTok followers the influencer has.
+            tests:
+              - not_null
+          - name: instagram_followers
+            description: Number of Instagram followers the influencer has.
+            tests:
+              - not_null
+          - name: is_married
+            description: Boolean indicating whether the influencer is married (TRUE/FALSE).
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['TRUE', 'FALSE']
+          - name: is_have_kids
+            description: Boolean indicating whether the influencer has kids (TRUE/FALSE).
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['TRUE', 'FALSE']
+          - name: country
+            description: Country code of the influencer (e.g., 'SG', 'ID').
+            tests:
+              - not_null
+
+# ----- Table: submission -----
+      - name: submission
+        description: |
+          - Contains submission records by influencers for campaigns.
+        meta:
+          owner: ngulikdata
+          fivetran:
+            name: pd
+            ingestion_type: Fivetran Teleport Sync
+        loaded_at_field: _FIVETRAN_SYNCED
+        columns:
+          - name: id
+            description: Unique identifier for the submission.
+            tests:
+              - not_null
+              - unique
+          - name: campaign_id
+            description: Foreign key linking the submission to a campaign.
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('campaign')
+                  field: id
+          - name: influencer_id
+            description: Foreign key linking the submission to an influencer.
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('influencer')
+                  field: id
+          - name: status
+            description: Status of the submission (e.g., SUBMITTED, APPROVED, COMPLETED).
+            tests:
+              - not_null
+          - name: submission_at
+            description: Date when the submission was made.
+          - name: approved_at
+            description: Date when the submission was approved.
+          - name: completed_at
+            description: Date when the submission was completed.
+          - name: like_count
+            description: Number of likes the submission received.
+          - name: comment_count
+            description: Number of comments the submission received.
+          - name: share_count
+            description: Number of shares the submission received.
+          - name: view_count
+            description: Number of views the submission received.

@@ -1,0 +1,184 @@
+version: 2
+
+models:
+  - name: stg_brand
+    description: |
+      The staging model for the `brand` table. It renames and formats the fields from the source `brand` table for easier use in downstream models, including OBT. This table provides details about the brands involved in influencer campaigns.
+    columns:
+      - name: brand_id
+        description: Unique identifier for the brand.
+        tests:
+          - not_null
+          - unique
+      - name: brand_name
+        description: The name of the brand.
+        tests:
+          - not_null
+      - name: brand_country
+        description: |
+          The country code where the brand is located (e.g., 'SG' for Singapore, 'ID' for Indonesia).
+        tests:
+          - not_null
+      - name: brand_created_at
+        description: The date when the brand was created.
+        tests:
+          - not_null
+      - name: brand_updated_at
+        description: The date when the brand information was last updated.
+        tests:
+          - not_null
+      - name: brand_industry
+        description: The industry the brand belongs to (e.g., fashion, electronics).
+        tests:
+          - not_null
+
+  - name: stg_campaign
+    description: |
+      The staging model for the `campaign` table. It renames and reformats the fields for use in downstream models like OBT. The table includes details about influencer marketing campaigns run by brands.
+    columns:
+      - name: campaign_id
+        description: Unique identifier for the campaign.
+        tests:
+          - not_null
+          - unique
+      - name: campaign_title
+        description: The title of the campaign.
+        tests:
+          - not_null
+      - name: campaign_description
+        description: A detailed description of the campaign.
+      - name: campaign_created_at
+        description: The date when the campaign was created.
+        tests:
+          - not_null
+      - name: campaign_updated_at
+        description: The date when the campaign was last updated.
+        tests:
+          - not_null
+      - name: campaign_brand_id
+        description: Foreign key linking the campaign to the brand dimension.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_brand')
+              field: brand_id
+      - name: campaign_start_date
+        description: The start date of the campaign.
+        tests:
+          - not_null
+      - name: campaign_end_date
+        description: The end date of the campaign.
+        tests:
+          - not_null
+      - name: campaign_budget
+        description: The budget allocated for the campaign.
+        tests:
+          - not_null
+      - name: campaign_target_influencer
+        description: The target number of influencers for the campaign.
+        tests:
+          - not_null
+      - name: campaign_status
+        description: The current status of the campaign (e.g., DRAFT, IN_PROGRESS, FINISHED).
+        tests:
+          - not_null
+      - name: campaign_fee
+        description: The fee structure for influencers participating in the campaign.
+        tests:
+          - not_null
+      - name: campaign_platform
+        description: The platform where the campaign is executed (e.g., Instagram, TikTok).
+        tests:
+          - not_null
+
+  - name: stg_influencer
+    description: |
+      The staging model for the `influencer` table. It renames and reformats influencer details for downstream use. This table includes information about influencers participating in campaigns.
+    columns:
+      - name: influencer_id
+        description: Unique identifier for the influencer.
+        tests:
+          - not_null
+          - unique
+      - name: influencer_name
+        description: The full name of the influencer.
+        tests:
+          - not_null
+      - name: influencer_tiktok_account
+        description: The TikTok account of the influencer, if available.
+      - name: influencer_instagram_account
+        description: The Instagram account of the influencer, if available.
+      - name: influencer_age
+        description: The age of the influencer.
+        tests:
+          - not_null
+      - name: influencer_gender
+        description: The gender of the influencer.
+        tests:
+          - not_null
+      - name: influencer_tiktok_followers
+        description: The number of followers the influencer has on TikTok.
+        tests:
+          - not_null
+      - name: influencer_instagram_followers
+        description: The number of followers the influencer has on Instagram.
+        tests:
+          - not_null
+      - name: influencer_is_married
+        description: Boolean indicating whether the influencer is married.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['TRUE', 'FALSE']
+      - name: influencer_is_have_kids
+        description: Boolean indicating whether the influencer has kids.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['TRUE', 'FALSE']
+      - name: influencer_country
+        description: The country code where the influencer resides (e.g., 'SG' for Singapore, 'ID' for Indonesia).
+        tests:
+          - not_null
+
+  - name: stg_submission
+    description: |
+      The staging model for the `submission` table. It prepares the submission data for downstream use by renaming and restructuring the columns. This table records the submission of influencer content as part of campaigns.
+    columns:
+      - name: submission_id
+        description: Unique identifier for the submission.
+        tests:
+          - not_null
+          - unique
+      - name: submission_campaign_id
+        description: Foreign key linking the submission to the campaign dimension.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_campaign')
+              field: campaign_id
+      - name: submission_influencer_id
+        description: Foreign key linking the submission to the influencer dimension.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_influencer')
+              field: influencer_id
+      - name: submission_status
+        description: The current status of the submission (e.g., SUBMITTED, APPROVED, COMPLETED).
+        tests:
+          - not_null
+      - name: submission_date
+        description: The date when the submission was made.
+      - name: submission_approved_at
+        description: The date when the submission was approved.
+      - name: submission_completed_at
+        description: The date when the submission was completed.
+      - name: submission_like_count
+        description: The number of likes the submission received.
+      - name: submission_comment_count
+        description: The number of comments the submission received.
+      - name: submission_share_count
+        description: The number of shares the submission received.
+      - name: submission_view_count
+        description: The number of views the submission received.

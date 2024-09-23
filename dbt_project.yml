@@ -35,8 +35,14 @@ clean-targets:         # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      +materialized: table
+  snowflake_world_tour_2024:
+    # Default setting for all models (can be overridden at specific folders)
+    materialized: view
+
+    mart:
+      +materialized: table  # All models under mart will be materialized as tables
+
+    staging:
+      +materialized: view   # All models under staging will be materialized as views
