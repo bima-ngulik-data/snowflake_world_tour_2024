@@ -95,20 +95,6 @@ models:
         description: "The date the platform was created."
       - name: platform_updated_at
         description: "The date the platform was last updated."
-  
-  - name: stg_product_types
-    description: |
-      The `stg_product_types` table provides information about different types of products available 
-      (e.g., courses, eBooks, templates).
-    columns:
-      - name: product_type_id
-        description: "Unique identifier for each product type."
-      - name: product_type
-        description: "The name of the product type (e.g., 'Video Course', 'Template')."
-      - name: product_type_created_at
-        description: "The date the product type was created."
-      - name: product_type_updated_at
-        description: "The date the product type was last updated."
 
   - name: stg_products
     description: |
