@@ -1,0 +1,238 @@
+version: 2
+sources:
+  - name: fivetran_edutech
+    database: FIVETRAN_DATABASE
+    schema: RAW_PG_EDUTECH
+    tables:
+      - name: categories
+        description: "Stores information about the product categories."
+        columns:
+          - name: id
+            description: "Unique identifier for each category."
+            tests:
+              - unique
+              - not_null
+          - name: name
+            description: "Name of the category."
+          - name: created_at
+            description: "Timestamp when the category was created."
+          - name: updated_at
+            description: "Timestamp when the category was last updated."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the category is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the category was last synced by Fivetran."
+
+      - name: enrollments
+        description: "Tracks student enrollments in products."
+        columns:
+          - name: id
+            description: "Unique identifier for each enrollment."
+            tests:
+              - unique
+              - not_null
+          - name: student_id
+            description: "Foreign key referencing the students table."
+            tests:
+              - not_null
+          - name: product_id
+            description: "Foreign key referencing the products table."
+            tests:
+              - not_null
+          - name: enrollment_date
+            description: "Timestamp of the enrollment."
+          - name: status
+            description: "Status of the enrollment (e.g., active, completed)."
+          - name: completed_at
+            description: "Timestamp when the enrollment was completed."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the enrollment is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the enrollment was last synced by Fivetran."
+
+      - name: orders_external
+        description: "Stores details about external orders made by students."
+        columns:
+          - name: id
+            description: "Unique identifier for each external order."
+            tests:
+              - unique
+              - not_null
+          - name: student_id
+            description: "Foreign key referencing the students table."
+            tests:
+              - not_null
+          - name: product_id
+            description: "Foreign key referencing the products table."
+            tests:
+              - not_null
+          - name: created_at
+            description: "Timestamp when the order was placed."
+          - name: unit_price
+            description: "Unit price of the product."
+          - name: discount
+            description: "Discount applied to the product."
+          - name: total_amount
+            description: "Total amount for the order."
+          - name: platform_id
+            description: "Foreign key referencing the platforms table."
+            tests:
+              - not_null
+          - name: _fivetran_deleted
+            description: "Flag indicating if the order is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the order was last synced by Fivetran."
+
+      - name: orders_internal
+        description: "Stores internal order details within the education platform."
+        columns:
+          - name: id
+            description: "Unique identifier for each internal order."
+            tests:
+              - unique
+              - not_null
+          - name: student_id
+            description: "Foreign key referencing the students table."
+            tests:
+              - not_null
+          - name: product_id
+            description: "Foreign key referencing the products table."
+            tests:
+              - not_null
+          - name: created_at
+            description: "Timestamp when the order was placed."
+          - name: unit_price
+            description: "Unit price of the product."
+          - name: discount
+            description: "Discount applied to the product."
+          - name: total_amount
+            description: "Total amount for the order."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the order is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the order was last synced by Fivetran."
+
+      - name: platforms
+        description: "Stores information about the platforms through which external orders are placed."
+        columns:
+          - name: id
+            description: "Unique identifier for each platform."
+            tests:
+              - unique
+              - not_null
+          - name: name
+            description: "Name of the platform."
+          - name: fee
+            description: "Fee associated with the platform."
+          - name: unit
+            description: "Unit in which the fee is charged."
+          - name: created_at
+            description: "Timestamp when the platform was created."
+          - name: updated_at
+            description: "Timestamp when the platform was last updated."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the platform is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the platform was last synced by Fivetran."
+
+      - name: products
+        description: "Stores details about products like courses, ebooks, or templates."
+        columns:
+          - name: id
+            description: "Unique identifier for each product."
+            tests:
+              - unique
+              - not_null
+          - name: title
+            description: "Title of the product."
+          - name: description
+            description: "Description of the product."
+          - name: status
+            description: "Status of the product (e.g., active, archived)."
+          - name: price
+            description: "Price of the product."
+          - name: category_id
+            description: "Foreign key referencing the categories table."
+            tests:
+              - not_null
+          - name: type_id
+            description: "Foreign key referencing the product_types table."
+            tests:
+              - not_null
+          - name: created_at
+            description: "Timestamp when the product was created."
+          - name: published_at
+            description: "Timestamp when the product was published."
+          - name: archived_at
+            description: "Timestamp when the product was archived."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the product is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the product was last synced by Fivetran."
+
+      - name: product_types
+        description: "Defines the types of products available on the platform."
+        columns:
+          - name: id
+            description: "Unique identifier for each product type."
+            tests:
+              - unique
+              - not_null
+          - name: type
+            description: "Name of the product type."
+          - name: created_at
+            description: "Timestamp when the product type was created."
+          - name: updated_at
+            description: "Timestamp when the product type was last updated."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the product type is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the product type was last synced by Fivetran."
+
+      - name: reviews
+        description: "Stores product reviews made by students."
+        columns:
+          - name: id
+            description: "Unique identifier for each review."
+            tests:
+              - unique
+              - not_null
+          - name: product_id
+            description: "Foreign key referencing the products table."
+            tests:
+              - not_null
+          - name: student_id
+            description: "Foreign key referencing the students table."
+            tests:
+              - not_null
+          - name: rating
+            description: "Rating given by the student for the product."
+          - name: created_at
+            description: "Timestamp when the review was created."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the review is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the review was last synced by Fivetran."
+
+      - name: students
+        description: "Stores information about students on the platform."
+        columns:
+          - name: id
+            description: "Unique identifier for each student."
+            tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: "First name of the student."
+          - name: last_name
+            description: "Last name of the student."
+          - name: email
+            description: "Email address of the student."
+          - name: phone_number
+            description: "Phone number of the student."
+          - name: registered_at
+            description: "Timestamp when the student registered on the platform."
+          - name: _fivetran_deleted
+            description: "Flag indicating if the student is deleted by Fivetran."
+          - name: _fivetran_synced
+            description: "Timestamp when the student was last synced by Fivetran."

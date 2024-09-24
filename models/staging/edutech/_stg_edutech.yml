@@ -1,0 +1,185 @@
+version: 2
+
+models:
+
+  - name: stg_categories
+    description: |
+      The `stg_categories` table contains cleaned and renamed data from the raw `categories` table. 
+      This table provides information on the various product categories available in the platform, 
+      which can be used to classify and group products like courses and eBooks.
+    columns:
+      - name: category_id
+        description: "Unique identifier for each category."
+      - name: category_name
+        description: "The name of the category, e.g., 'Data Science' or 'Marketing'."
+      - name: category_created_at
+        description: "Timestamp indicating when the category was created."
+      - name: category_updated_at
+        description: "Timestamp indicating when the category was last updated."
+
+  - name: stg_enrollments
+    description: |
+      The `stg_enrollments` table provides cleaned enrollment data, which tracks students who have 
+      enrolled in various products such as courses or templates. This table captures important 
+      details such as enrollment status and completion date.
+    columns:
+      - name: enrollment_id
+        description: "Unique identifier for each enrollment."
+      - name: student_id
+        description: "Foreign key referencing the `stg_students` table."
+      - name: product_id
+        description: "Foreign key referencing the `stg_products` table."
+      - name: enrollment_date
+        description: "The date the student enrolled in the product."
+      - name: enrollment_status
+        description: "The status of the enrollment (e.g., 'active', 'completed')."
+      - name: enrollment_completed_at
+        description: "The date and time the enrollment was completed, if applicable."
+  
+  - name: stg_orders_external
+    description: |
+      The `stg_orders_external` table contains external order data, tracking purchases made by students
+      on third-party platforms. It includes information like order prices, discounts, and total amounts.
+    columns:
+      - name: external_order_id
+        description: "Unique identifier for each external order."
+      - name: student_id
+        description: "Foreign key referencing the `stg_students` table."
+      - name: product_id
+        description: "Foreign key referencing the `stg_products` table."
+      - name: order_created_at
+        description: "The date and time the external order was placed."
+      - name: order_unit_price
+        description: "The unit price of the product for this external order."
+      - name: order_discount
+        description: "The discount applied to the order."
+      - name: order_total_amount
+        description: "The total amount charged for the external order."
+      - name: platform_id
+        description: "Foreign key referencing the `stg_platforms` table."
+  
+  - name: stg_orders_internal
+    description: |
+      The `stg_orders_internal` table captures internal orders made within the education platform. 
+      It contains details such as the price, discount, and total amount for each order.
+    columns:
+      - name: internal_order_id
+        description: "Unique identifier for each internal order."
+      - name: student_id
+        description: "Foreign key referencing the `stg_students` table."
+      - name: product_id
+        description: "Foreign key referencing the `stg_products` table."
+      - name: order_created_at
+        description: "The date and time the internal order was placed."
+      - name: order_unit_price
+        description: "The unit price of the product for this internal order."
+      - name: order_discount
+        description: "The discount applied to the order."
+      - name: order_total_amount
+        description: "The total amount charged for the internal order."
+
+  - name: stg_platforms
+    description: |
+      The `stg_platforms` table contains information about third-party platforms where students can purchase products.
+      It includes details like platform fees and units of measure.
+    columns:
+      - name: platform_id
+        description: "Unique identifier for each platform."
+      - name: platform_name
+        description: "The name of the platform (e.g., 'Udemy', 'Coursera')."
+      - name: platform_fee
+        description: "The fee charged by the platform."
+      - name: platform_unit
+        description: "The unit in which the platform fee is charged (e.g., 'USD')."
+      - name: platform_created_at
+        description: "The date the platform was created."
+      - name: platform_updated_at
+        description: "The date the platform was last updated."
+  
+  - name: stg_product_types
+    description: |
+      The `stg_product_types` table provides information about different types of products available 
+      (e.g., courses, eBooks, templates).
+    columns:
+      - name: product_type_id
+        description: "Unique identifier for each product type."
+      - name: product_type
+        description: "The name of the product type (e.g., 'Video Course', 'Template')."
+      - name: product_type_created_at
+        description: "The date the product type was created."
+      - name: product_type_updated_at
+        description: "The date the product type was last updated."
+
+  - name: stg_products
+    description: |
+      The `stg_products` table holds product data (courses, eBooks, etc.) available on the platform.
+      It contains product details such as title, description, price, and category.
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product."
+      - name: product_title
+        description: "The title of the product (e.g., 'Data Science 101')."
+      - name: product_description
+        description: "A brief description of the product."
+      - name: product_status
+        description: "The current status of the product (e.g., 'active', 'archived')."
+      - name: product_price
+        description: "The price of the product."
+      - name: category_id
+        description: "Foreign key referencing the `stg_categories` table."
+      - name: type_id
+        description: "Foreign key referencing the `stg_product_types` table."
+      - name: product_created_at
+        description: "The date the product was created."
+      - name: product_published_at
+        description: "The date the product was published."
+      - name: product_archived_at
+        description: "The date the product was archived."
+
+  - name: stg_product_types
+    description: |
+      The `stg_product_types` table provides information about different types of products available 
+      (e.g., courses, eBooks, templates).
+    columns:
+      - name: product_type_id
+        description: "Unique identifier for each product type."
+      - name: product_type
+        description: "The name of the product type (e.g., 'Video Course', 'Template')."
+      - name: product_type_created_at
+        description: "The date the product type was created."
+      - name: product_type_updated_at
+        description: "The date the product type was last updated."
+
+  - name: stg_reviews
+    description: |
+      The `stg_reviews` table captures reviews left by students for different products.
+      Each review includes a rating and is linked to both a product and a student.
+    columns:
+      - name: review_id
+        description: "Unique identifier for each review."
+      - name: product_id
+        description: "Foreign key referencing the `stg_products` table."
+      - name: student_id
+        description: "Foreign key referencing the `stg_students` table."
+      - name: review_rating
+        description: "The rating given by the student for the product."
+      - name: review_created_at
+        description: "The date the review was created."
+
+  - name: stg_students
+    description: |
+      The `stg_students` table holds detailed information about the students using the platform.
+      This table includes personal details such as name, email, and registration date.
+    columns:
+      - name: student_id
+        description: "Unique identifier for each student."
+      - name: student_first_name
+        description: "First name of the student."
+      - name: student_last_name
+        description: "Last name of the student."
+      - name: student_email
+        description: "Email address of the student."
+      - name: student_phone_number
+        description: "Phone number of the student."
+      - name: student_registered_at
+        description: "The date the student registered on the platform."
